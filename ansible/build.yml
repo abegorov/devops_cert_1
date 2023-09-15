@@ -1,0 +1,38 @@
+---
+- name: Build application image
+  hosts:
+    - puzzle15_builder
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Create temporary build directory
+      ansible.builtin.tempfile:
+        state: directory
+      register: build_dir
+
+    - block:
+        - name: Copy dockerfiles to build directory
+          ansible.builtin.copy:
+            src: ../docker/puzzle15-tomcat/
+            dest: "{{ build_dir.path }}"
+
+        - name: Build application image and push it to registry
+          community.docker.docker_image:
+            build:
+              path: "{{ build_dir.path }}"
+            name: "{{
+                'cr.yandex/' +
+                lookup('ansible.builtin.env', 'repository_id') + '/' +
+                'puzzle15-tomcat'
+              }}"
+            tag: "{{ lookup('ansible.builtin.env', 'app_version') }}"
+            push: true
+            source: build
+            state: present
+
+      always:
+        - name: Remove temporary build directory
+          ansible.builtin.file:
+            path: "{{ build_dir.path }}"
+            state: absent

@@ -1,0 +1,24 @@
+---
+- name: Build application image
+  hosts:
+    - puzzle15_stage
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Restart the puzzle15-tomcat container
+      community.docker.docker_container:
+        name: puzzle15-tomcat
+        image: "{{
+            'cr.yandex/' +
+            lookup('ansible.builtin.env', 'repository_id') + '/' +
+            'puzzle15-tomcat' + ':' +
+            lookup('ansible.builtin.env', 'app_version')
+          }}"
+        pull: true
+        state: started
+        restart: true
+        restart_policy: unless-stopped
+        published_ports:
+          - "80:8080"
+        container_default_behavior: no_defaults
