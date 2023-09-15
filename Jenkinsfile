@@ -44,6 +44,7 @@ pipeline {
         dockerfile {
           dir 'docker/terraform-yc'
           label 'terraform-yc'
+          args '-v /etc/passwd:/etc/passwd:ro'
           reuseNode true
         }
       }
