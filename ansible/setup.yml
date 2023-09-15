@@ -60,6 +60,8 @@
         update_cache: true
         state: present
 
+    # модуль docker не совместим с urllib3>=2
+    # https://github.com/docker/docker-py/issues/3113
     - name: Install docker python package
       ansible.builtin.pip:
         name:
