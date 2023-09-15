@@ -62,7 +62,7 @@ pipeline {
         dir("terraform/puzzle15-builder") {
           sh '''
             set -eux
-            export TF_VAR_ssh_key_file="$ssh_puzzle15_builder_key_file"
+            export TF_VAR_ssh_key_file="$builder_key_file"
             ssh-keygen -f "${builder_key_file}" > "${builder_key_file}.pub"
             terraform init -input=false
             terraform plan -input=false
@@ -75,11 +75,10 @@ pipeline {
         always {
           dir("terraform/puzzle15-builder") {
             sh '''
-              set -eux
-              rm "${builder_key_file}.pub"
-              rm "${stage_key_file}.pub"
               export TF_VAR_ssh_key_file="$ssh_puzzle15_builder_key_file"
               terraform destroy -input=false -auto-approve
+              rm "${builder_key_file}.pub" -f
+              rm "${stage_key_file}.pub" -f
             '''
           }
         }
