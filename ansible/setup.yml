@@ -1,8 +1,6 @@
 ---
 - name: Install Docker and Login to registry
-  hosts:
-    - puzzle15_builder
-    - puzzle15_stage
+  hosts: all
   become: true
   gather_facts: false
 

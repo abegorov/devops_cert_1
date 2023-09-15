@@ -67,8 +67,16 @@ pipeline {
           '''
         }
         dir('ansible') {
-          ansiblePlaybook inventory: 'puzzle15-builder', playbook: 'setup.yml'
-          ansiblePlaybook inventory: 'puzzle15-builder', playbook: 'build.yml'
+          ansiblePlaybook(
+            inventory: 'puzzle15-builder',
+            playbook: 'setup.yml',
+            extras: '--diff'
+          )
+          ansiblePlaybook(
+            inventory: 'puzzle15-builder',
+            playbook: 'build.yml',
+            extras: '--diff'
+          )
         }
       }
 
@@ -76,7 +84,7 @@ pipeline {
         always {
           dir("terraform/puzzle15-builder") {
             sh '''
-              terraform destroy  -no-color -input=false -auto-approve
+              terraform destroy -no-color -input=false -auto-approve
             '''
           }
         }

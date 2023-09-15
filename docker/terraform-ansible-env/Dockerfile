@@ -19,6 +19,8 @@ RUN --mount=type=cache,target=/var/cache/apk <<EOT
     apk add ansible
 EOT
 
+# ansible необходима возможность записи в $HOME:
 ENV HOME=/tmp
+# настройки Terraform для работы с https://terraform-mirror.yandexcloud.net/:
 ENV TF_CLI_CONFIG_FILE=/etc/terraformrc
 COPY --link terraformrc ${TF_CLI_CONFIG_FILE}

@@ -1,7 +1,6 @@
 ---
 - name: Build application image
-  hosts:
-    - puzzle15_builder
+  hosts: all
   become: true
   gather_facts: false
 
