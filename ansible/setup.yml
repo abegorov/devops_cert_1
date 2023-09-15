@@ -62,7 +62,9 @@
 
     - name: Install docker python package
       ansible.builtin.pip:
-        name: docker
+        name:
+          - urllib3<2
+          - docker
 
     - name: Log into Docker registry
       community.docker.docker_login:
