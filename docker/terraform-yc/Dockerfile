@@ -3,3 +3,4 @@ COPY --link terraformrc /root/.terraformrc
 RUN apk update && \
     apk add openssh-keygen && \
     rm /var/cache/apk/* -rf
+ENTRYPOINT []
