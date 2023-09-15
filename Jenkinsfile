@@ -64,7 +64,7 @@ pipeline {
           sh '''
             set -eux
             export TF_VAR_ssh_key_file="$builder_key_file"
-            ssh-keygen -f "${builder_key_file}" | tee "${builder_key_file}.pub"
+            ssh-keygen -f "${builder_key_file}" -y | tee "${builder_key_file}.pub"
             terraform init -input=false
             terraform plan -input=false
             terraform apply -input=false -auto-approve
