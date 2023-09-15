@@ -3,7 +3,7 @@ pipeline {
     dockerfile {
       label 'docker-agent'
       dir 'docker/terraform-ansible-env'
-      args '-v /etc/passwd:/etc/passwd:ro'
+      args '-v /etc/passwd:/etc/passwd:ro '
     }
   }
 
