@@ -1,7 +1,9 @@
 pipeline {
   agent {
-    node {
-      label 'docker-agent'
+    dockerfile {
+      dir 'docker/terraform-ansible-env'
+      label 'terraform-ansible-env'
+      args '-v /etc/passwd:/etc/passwd:ro'
     }
   }
 
@@ -40,18 +42,8 @@ pipeline {
 
   stages {
     stage('Setup') {
-      agent {
-        dockerfile {
-          dir 'docker/terraform-yc'
-          label 'terraform-yc'
-          args '-v /etc/passwd:/etc/passwd:ro'
-          reuseNode true
-        }
-      }
-
       environment {
-        builder_key_file = credentials('ssh_puzzle15_builder_key_file')
-        stage_key_file = credentials('ssh_puzzle15_stage_key_file')
+        TF_VAR_ssh_key_file = credentials('ssh_puzzle15_builder_key_file')
         TF_VAR_yc_key_file = credentials('yandex_cloud_key_file')
         TF_VAR_cloud_id = "${params.cloud_id}"
         TF_VAR_folder_id = "${params.folder_id}"
@@ -63,11 +55,10 @@ pipeline {
         dir("terraform/puzzle15-builder") {
           sh '''
             set -eux
-            export TF_VAR_ssh_key_file="$builder_key_file"
             ssh-keygen -f "${builder_key_file}" -y | tee "${builder_key_file}.pub"
-            terraform init -input=false
-            terraform plan -input=false
-            terraform apply -input=false -auto-approve
+            terraform init -no-color -input=false
+            terraform plan -no-color -input=false
+            terraform apply -no-color -input=false -auto-approve
           '''
         }
       }
@@ -76,10 +67,7 @@ pipeline {
         always {
           dir("terraform/puzzle15-builder") {
             sh '''
-              export TF_VAR_ssh_key_file="$builder_key_file"
               terraform destroy -input=false -auto-approve
-              rm "${builder_key_file}.pub" -f
-              rm "${stage_key_file}.pub" -f
             '''
           }
         }
