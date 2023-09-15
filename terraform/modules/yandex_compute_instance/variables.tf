@@ -13,9 +13,6 @@ variable "inventory_file" {
 variable "inventory_group" {
   type = string
 }
-variable "inventory_ssh_key_file" {
-  type = string
-}
 variable "instances_count" {
   type = number
 }

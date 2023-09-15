@@ -87,6 +87,6 @@ resource "local_file" "inventory" {
     inventory_group = var.inventory_group,
     instances = yandex_compute_instance.instance,
     ssh_username = var.ssh_username,
-    ssh_private_key_file = format("%s", var.inventory_ssh_key_file)
+    ssh_key_file = var.ssh_key_file
   })
 }

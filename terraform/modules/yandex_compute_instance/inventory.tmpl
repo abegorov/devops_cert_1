@@ -5,5 +5,5 @@ ${instance.hostname} ansible_host=${instance.network_interface.0.nat_ip_address}
 
 [${inventory_group}:vars]
 ansible_user=${ssh_username}
-ansible_ssh_private_key_file=${ssh_private_key_file}
+ansible_ssh_private_key_file=${ssh_key_file}
 ansible_ssh_common_args=-o StrictHostKeyChecking=no

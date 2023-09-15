@@ -71,5 +71,8 @@
         registry_url: cr.yandex
         username: json_key
         password: "{{
-            lookup('ansible.builtin.file', '../secrets/key.json') | string
+            lookup(
+              'ansible.builtin.file',
+              lookup('ansible.builtin.env', 'yc_key_file')
+            ) | string
           }}"

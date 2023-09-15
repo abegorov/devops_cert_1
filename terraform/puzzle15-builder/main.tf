@@ -23,7 +23,6 @@ module "yandex_compute_instance" {
 
   inventory_group = "puzzle15_builder"
   inventory_file  = "../../ansible/puzzle15-builder"
-  inventory_ssh_key_file = "{{ ssh_puzzle15_builder_key_file }}"
 
   instances_count = 1
   instance_config = {
