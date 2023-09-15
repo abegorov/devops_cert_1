@@ -52,7 +52,7 @@ pipeline {
       environment {
         builder_key_file = credentials('ssh_puzzle15_builder_key_file')
         stage_key_file = credentials('ssh_puzzle15_stage_key_file')
-        TF_VAR_service_account_key_file = credentials('yandex_cloud_key_file')
+        TF_VAR_yc_key_file = credentials('yandex_cloud_key_file')
         TF_VAR_cloud_id = "${params.cloud_id}"
         TF_VAR_folder_id = "${params.folder_id}"
         TF_VAR_zone = "${params.zone}"

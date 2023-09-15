@@ -13,3 +13,6 @@ variable "subnet" {
 variable "ssh_key_file" {
   type = string
 }
+variable "yc_key_file" {
+  type = string
+}
