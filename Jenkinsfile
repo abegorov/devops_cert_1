@@ -55,7 +55,7 @@ pipeline {
         dir("terraform/puzzle15-builder") {
           sh '''
             set -eux
-            ssh-keygen -f "${builder_key_file}" -y | tee "${builder_key_file}.pub"
+            ssh-keygen -f "${TF_VAR_ssh_key_file}" -y | tee "${TF_VAR_ssh_key_file}.pub"
             terraform init -no-color -input=false
             terraform plan -no-color -input=false
             terraform apply -no-color -input=false -auto-approve
