@@ -1,5 +1,5 @@
 ---
-- name: Build application image
+- name: Deploy application image
   hosts: all
   become: true
   gather_facts: false

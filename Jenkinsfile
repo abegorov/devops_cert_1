@@ -3,6 +3,7 @@ pipeline {
     dockerfile {
       label 'docker-agent'
       dir 'docker/terraform-ansible-env'
+      // /etc/passwd требуется для работы ssh-keygen
       args '-v /etc/passwd:/etc/passwd:ro '
     }
   }
@@ -10,7 +11,7 @@ pipeline {
   parameters {
     string(
       name: 'app_version',
-      defaultValue: '1.0.9',
+      defaultValue: '1.0.19',
       description: 'Application Version Tag'
     )
     string(
@@ -84,7 +85,7 @@ pipeline {
         always {
           dir("terraform/puzzle15-builder") {
             sh '''
-              #terraform destroy -no-color -input=false -auto-approve
+              terraform destroy -no-color -input=false -auto-approve
             '''
           }
         }
